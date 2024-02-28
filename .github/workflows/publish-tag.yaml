@@ -1,17 +1,20 @@
-name: Push docker image
+name: Push release
 
 on:
   push:
-    branches:
-      - 'main'
+    tags:
+      - '*.*.*'      
 
 jobs:
-  docker:
+  main:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
     steps:
+      - name: Get version from tags
+        id: version
+        run: echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -23,7 +26,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push
+        id: docker_build
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/${{ github.repository }}:v${{ steps.version.outputs.tag }}
