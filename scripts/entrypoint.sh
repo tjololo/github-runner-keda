@@ -1,8 +1,7 @@
 #!/bin/sh -l
 echo "Obtaining access token for app_id ${APP_ID} and login ${APP_LOGIN}"
-nl="
-"
-ACCESS_TOKEN=$(APP_ID="${APP_ID}" APP_PRIVATE_KEY="${APP_PRIVATE_KEY//\\n/${nl}}" APP_LOGIN="${APP_LOGIN}" bash ./app_token.sh)
+
+ACCESS_TOKEN=$(APP_ID="${APP_ID}" APP_PRIVATE_KEY="${APP_PRIVATE_KEY}" APP_LOGIN="${APP_LOGIN}" bash ./app-token.sh)
 
 
 # Retrieve a short lived runner registration token using the PAT
