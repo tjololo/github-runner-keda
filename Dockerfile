@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y curl jq && \
 
 COPY scripts/entrypoint.sh ./entrypoint.sh
 COPY scripts/app-token.sh ./app-token.sh
+COPY scripts/token.sh ./token.sh
 RUN chmod +x ./entrypoint.sh
 
 USER runner

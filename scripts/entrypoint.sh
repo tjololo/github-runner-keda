@@ -5,11 +5,7 @@ ACCESS_TOKEN=$(APP_ID="${APP_ID}" APP_PRIVATE_KEY="${APP_PRIVATE_KEY}" APP_LOGIN
 
 
 # Retrieve a short lived runner registration token using the PAT
-REGISTRATION_TOKEN="$(curl -X POST -fsSL \
-  -H 'Accept: application/vnd.github.v3+json' \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -H 'X-GitHub-Api-Version: 2022-11-28' \
-  "$REGISTRATION_TOKEN_API_URL" \
-  | jq -r '.token')"
+_TOKEN=$(ACCESS_TOKEN="${ACCESS_TOKEN}" bash ./token.sh)
+RUNNER_TOKEN=$(echo "${_TOKEN}" | jq -r .token)
 
-./config.sh --url $REPO_URL --token $REGISTRATION_TOKEN --unattended --ephemeral && ./run.sh
+./config.sh --url $REPO_URL --token $RUNNER_TOKEN --unattended --ephemeral && ./run.sh
