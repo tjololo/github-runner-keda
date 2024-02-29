@@ -1,4 +1,5 @@
-#!/bin/sh -l
+#!/bin/bash
+
 if [[ -n "${APP_ID}" ]] && [[ -z "${APP_LOGIN}" ]]; then
   APP_LOGIN=${REPO_URL%/*}
   APP_LOGIN=${APP_LOGIN##*/}
