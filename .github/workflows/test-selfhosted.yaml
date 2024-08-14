@@ -1,0 +1,14 @@
+name: Push release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: self-hosted
+    permissions:
+      contents: read
+    steps:
+    - name: echo
+      run: |
+        echo "Hello self hosted agent"
