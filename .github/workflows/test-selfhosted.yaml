@@ -1,4 +1,4 @@
-name: Push release
+name: Test self hosted agent
 
 on:
   workflow_dispatch:
