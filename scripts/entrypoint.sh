@@ -1,4 +1,4 @@
-#!/usr/bin/dumb-init /bin/bash
+#!/bin/bash
 # shellcheck shell=bash
 export PATH=${PATH}:/actions-runner
 
