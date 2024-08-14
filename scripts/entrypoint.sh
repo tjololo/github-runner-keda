@@ -30,5 +30,4 @@ RUNNER_TOKEN=$(echo "${_TOKEN}" | jq -r .token)
 
 echo "Configuring"
 
-./config.sh --url $REPO_URL --token $RUNNER_TOKEN --unattended --ephemeral
-"$@"
+./config.sh --url $REPO_URL --token $RUNNER_TOKEN --unattended --ephemeral && ./run.sh
