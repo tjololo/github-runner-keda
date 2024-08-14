@@ -1,4 +1,19 @@
-#!/bin/bash
+#!/usr/bin/dumb-init /bin/bash
+# shellcheck shell=bash
+export PATH=${PATH}:/actions-runner
+
+export -n ACCESS_TOKEN
+export -n RUNNER_TOKEN
+export -n APP_ID
+export -n APP_PRIVATE_KEY
+
+_RUNNER_WORKDIR=${RUNNER_WORKDIR:-/_work/${_RUNNER_NAME}}
+_LABELS=${LABELS:-default}
+_RUNNER_GROUP=${RUNNER_GROUP:-Default}
+
+[[ -z ${REPO_URL} ]] && ( echo "REPO_URL required for repo runners"; exit 1 )
+_SHORT_URL=${REPO_URL}
+RUNNER_SCOPE="repo"
 
 if [[ -n "${APP_ID}" ]] && [[ -z "${APP_LOGIN}" ]]; then
   APP_LOGIN=${REPO_URL%/*}
@@ -15,4 +30,5 @@ RUNNER_TOKEN=$(echo "${_TOKEN}" | jq -r .token)
 
 echo "Configuring"
 
-./config.sh --url $REPO_URL --token $RUNNER_TOKEN --unattended --ephemeral && ./run.sh
+./config.sh --url $REPO_URL --token $RUNNER_TOKEN --unattended --ephemeral
+"$@"
