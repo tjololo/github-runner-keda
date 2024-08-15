@@ -3,9 +3,12 @@
 #######
 # Input variables:
 # REPO_URL url to github repo (https://github.com/owner/repo)
+# ACCESS_TOKEN access token
 # RUNNER_NAME name of the runner
 # LABELS runner labels
 # WORK_FOLDER work folder for the runner
+
+echo "Fetching JIT config"
 
 API_VERSION=v3
 ACCEPT_HEADER="Accept: application/vnd.github.${API_VERSION}+json"
