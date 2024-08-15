@@ -35,8 +35,9 @@ echo "Configuring"
 
 if [[ -n "${JIT_RUNNER}" ]]; then
   JIT_CONFIG=$(REPO_URL="${REPO_URL}" NAME="${_RUNNER_NAME}" LABELS="${_LABELS}" WORK_FOLDER="${_RUNNER_WORKDIR}" ACCESS_TOKEN="${ACCESS_TOKEN}" bash ./jit-config.sh)
-  echo "Starting runner with JIT config ${JIT_CONFIG}"
-  ./run.sh --jitconfig "${JIT_CONFIG}"
+  echo -n "Starting runner with JIT config ${JIT_CONFIG}"
+  ENCODED_JIT_CONFIG=$(echo -n "${JIT_CONFIG}" | jq -r '.encoded_jit_config')
+  ./run.sh --jitconfig "${ENCODED_JIT_CONFIG}"
 else
   echo "Starting runner without JIT config"
   ./config.sh \
