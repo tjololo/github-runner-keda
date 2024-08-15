@@ -33,20 +33,19 @@ RUNNER_TOKEN=$(echo "${_TOKEN}" | jq -r .token)
 
 echo "Configuring"
 
-./config.sh \
-  --url $REPO_URL \
-  --token $RUNNER_TOKEN \
-  --labels "${_LABELS}" \
-  --work "${_RUNNER_WORKDIR}" \
-  --name "${_RUNNER_NAME}" \
-  --unattended \
-  --ephemeral
-
 if [[ -n "${JIT_RUNNER}" ]]; then
   JIT_CONFIG=$(REPO_URL="${REPO_URL}" NAME="${_RUNNER_NAME}" LABELS="${_LABELS}" WORK_FOLDER="${_RUNNER_WORKDIR}" ACCESS_TOKEN="${ACCESS_TOKEN}" bash ./jit-config.sh)
   echo "Starting runner with JIT config ${JIT_CONFIG}"
   ./run.sh --jitconfig "${JIT_CONFIG}"
 else
   echo "Starting runner without JIT config"
+  ./config.sh \
+    --url $REPO_URL \
+    --token $RUNNER_TOKEN \
+    --labels "${_LABELS}" \
+    --work "${_RUNNER_WORKDIR}" \
+    --name "${_RUNNER_NAME}" \
+    --unattended \
+    --ephemeral
   ./run.sh
 fi

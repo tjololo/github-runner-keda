@@ -4,7 +4,7 @@
 # Input variables:
 # REPO_URL url to github repo (https://github.com/owner/repo)
 # ACCESS_TOKEN access token
-# RUNNER_NAME name of the runner
+# NAME name of the runner
 # LABELS runner labels
 # WORK_FOLDER work folder for the runner
 
@@ -22,12 +22,14 @@ FULL_API_URL="https://api.github.com/repos/${OWNER}/${REPO}/actions/runners/gene
 
 JSON_LABELS=$(jq -c -n --arg str "${LABELS}" '$str|split(",")')
 REQUEST_BODY="{\"name\":\"${NAME}\",\"runner_group_id\":1,\"labels\":${JSON_LABELS},\"work_folder\":\"${WORK_FOLDER}\"}"
+
 echo JIT request body: ${REQUEST_BODY}
+
 JIT_CONFIG="$(curl -sSL --trace-ascii /dev/stdout -XPOST \
     -H "${ACCEPT_HEADER}" \
     -H "${AUTH_HEADER}" \
     -H "${VERSION_HEADER}" \
     "${FULL_API_URL}" \
     -d "${REQUEST_BODY}")"
-echo JIT config respons: ${JIT_CONFIG}
-echo ${JIT_CONFIG} | base64
+#echo JIT config respons: ${JIT_CONFIG}
+echo ${JIT_CONFIG} | jq -r '.encoded_jit_config'
