@@ -7,6 +7,7 @@ export -n RUNNER_TOKEN
 export -n APP_ID
 export -n APP_PRIVATE_KEY
 
+_RUNNER_NAME=${RUNNER_NAME:-${RUNNER_NAME_PREFIX:-github-runner}-$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo '')}
 _RUNNER_WORKDIR=${RUNNER_WORKDIR:-/_work/${_RUNNER_NAME}}
 _LABELS=${LABELS:-default}
 _RUNNER_GROUP=${RUNNER_GROUP:-Default}
@@ -30,4 +31,12 @@ RUNNER_TOKEN=$(echo "${_TOKEN}" | jq -r .token)
 
 echo "Configuring"
 
-./config.sh --url $REPO_URL --token $RUNNER_TOKEN --unattended --ephemeral && ./run.sh
+./config.sh \
+  --url $REPO_URL \
+  --token $RUNNER_TOKEN \
+  --labels "${_LABELS}" \
+  --work "${_RUNNER_WORKDIR}" \
+  --name "${_RUNNER_NAME}" \
+  --unattended \
+  --ephemeral \
+  && ./run.sh
