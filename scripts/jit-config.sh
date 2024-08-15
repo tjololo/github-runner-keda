@@ -21,7 +21,7 @@ OWNER=$(basename "$url_without_repo" ".${url_without_repo##.}")
 FULL_API_URL="https://api.github.com/repos/${OWNER}/${REPO}/actions/runners/generate-jitconfig"
 
 JSON_LABELS=$(jq -c -n --arg str "${LABELS}" '$str|split(",")')
-REQUEST_BODY="{\"name\":\"$RUNNER_NAME\",\"runner_group_id\":\"1\",\"labels\":${JSON_LABELS},\"work_folder\":\"${WORK_FOLDER}\"}"
+REQUEST_BODY="{\"name\":\"$RUNNER_NAME\",\"runner_group_id\":1,\"labels\":${JSON_LABELS},\"work_folder\":\"${WORK_FOLDER}\"}"
 
 JIT_CONFIG=$(curl -sSL -XPOST \
     -H "${ACCEPT_HEADER}" \
