@@ -25,10 +25,10 @@ REQUEST_BODY="{\"name\":\"$RUNNER_NAME\",\"runner_group_id\":\"1\",\"labels\":${
 
 
 echo $REPO $OWNER
-JIT_CONFIG=$(curl -L -XPOST \
-    -H ${ACCEPT_HEADER} \
-    -H ${AUTH_HEADER} \
-    -H ${VERSION_HEADER} \
+JIT_CONFIG=$(curl -sSL -XPOST \
+    -H "${ACCEPT_HEADER}" \
+    -H "${AUTH_HEADER}" \
+    -H "${VERSION_HEADER}" \
     "${FULL_API_URL}" \
     -d "${REQUEST_BODY}"
 )
