@@ -18,7 +18,7 @@ RUN chmod +x ./entrypoint.sh && \
     chmod +x ./jit-config.sh && \
     chown runner:docker ./entrypoint.sh && \
     chown runner:docker ./app-token.sh && \
-    chown runner:docker ./token.sh \
+    chown runner:docker ./token.sh && \
     chown runner:docker ./jit-config.sh
 
 USER runner
