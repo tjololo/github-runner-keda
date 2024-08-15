@@ -25,11 +25,11 @@ REQUEST_BODY="{\"name\":\"${NAME}\",\"runner_group_id\":1,\"labels\":${JSON_LABE
 
 echo JIT request body: ${REQUEST_BODY}
 
-JIT_CONFIG="$(curl -sSL --trace-ascii /dev/stdout -XPOST \
+JIT_CONFIG="$(curl -sSL -XPOST \
     -H "${ACCEPT_HEADER}" \
     -H "${AUTH_HEADER}" \
     -H "${VERSION_HEADER}" \
     "${FULL_API_URL}" \
     -d "${REQUEST_BODY}")"
-#echo JIT config respons: ${JIT_CONFIG}
+echo JIT config respons: ${JIT_CONFIG}
 echo ${JIT_CONFIG} | jq -r '.encoded_jit_config'
