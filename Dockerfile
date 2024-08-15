@@ -16,10 +16,13 @@ RUN chmod +x ./entrypoint.sh && \
     chmod +x ./app-token.sh && \
     chmod +x ./token.sh && \
     chmod +x ./jit-config.sh && \
-    chown runner:docker ./entrypoint.sh && \
-    chown runner:docker ./app-token.sh && \
-    chown runner:docker ./token.sh && \
-    chown runner:docker ./jit-config.sh
+    mkdir /_work && \
+    chown runner:docker \
+        ./entrypoint.sh \
+        ./app-token.sh \
+        ./token.sh \
+        ./jit-config.sh \
+        /_work
 
 USER runner
 
