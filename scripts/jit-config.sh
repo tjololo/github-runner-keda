@@ -29,7 +29,7 @@ JIT_CONFIG=$(curl -L -XPOST \
     -H ${ACCEPT_HEADER} \
     -H ${AUTH_HEADER} \
     -H ${VERSION_HEADER} \
-    "${FULL_API_URL}"
+    "${FULL_API_URL}" \
     -d "${REQUEST_BODY}"
 )
 
