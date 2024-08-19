@@ -13,10 +13,10 @@ jobs:
       id: output
       uses: actions/github-script@v7
       with:
-        script: return "Some strings to escape \n<nil>\n\"<nil>\"\n\"\"<nil>\"\"'<nil>'\n\'<nil>\'"
+        script: return "Some strings to escape \n<nil>\n\"<nil>\"\n\"\"<nil>\"\""
         result-encoding: string
     - name: summarize
       run: |
         echo "## Summary: " >> $GITHUB_STEP_SUMMARY
         echo "\`\`\`\n" >> $GITHUB_STEP_SUMMARY
-        echo '${{ steps.output.outputs.result }}' >> $GITHUB_STEP_SUMMARY
+        echo "${{ steps.output.outputs.result }}" >> $GITHUB_STEP_SUMMARY
