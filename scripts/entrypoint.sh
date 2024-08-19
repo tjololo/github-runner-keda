@@ -2,6 +2,8 @@
 # shellcheck shell=bash
 export PATH=${PATH}:/actions-runner
 
+# Un-export these, so that they must be passed explicitly to the environment of
+# any command that needs them.  This may help prevent leaks.
 export -n ACCESS_TOKEN
 export -n RUNNER_TOKEN
 export -n APP_ID
@@ -12,6 +14,14 @@ _RUNNER_WORKDIR=${RUNNER_WORKDIR:-/_work/${_RUNNER_NAME}}
 _LABELS=${LABELS:-default}
 _RUNNER_GROUP=${RUNNER_GROUP:-Default}
 _RUNNER_GROUP_ID=${RUNNER_GROUP_ID:-1}
+
+## Unset these, this may help prevent leaks
+unset_env() {
+  unset ACCESS_TOKEN
+  unset RUNNER_TOKEN
+  unset APP_ID
+  unset APP_PRIVATE_KEY
+}
 
 [[ -z ${REPO_URL} ]] && ( echo "REPO_URL required for repo runners"; exit 1 )
 _SHORT_URL=${REPO_URL}
@@ -45,10 +55,7 @@ if [[ -n "${JIT_RUNNER}" ]]; then
   JIT_CONFIG=$(REPO_URL="${REPO_URL}" NAME="${_RUNNER_NAME}" LABELS="${_LABELS}" WORK_FOLDER="${_RUNNER_WORKDIR}" ACCESS_TOKEN="${ACCESS_TOKEN}" bash ./jit-config.sh)
   echo "Starting runner with JIT config ${JIT_CONFIG}"
   ENCODED_JIT_CONFIG=$(jq -r '.encoded_jit_config' <<< "${JIT_CONFIG}")
-  unset ACCESS_TOKEN
-  unset RUNNER_TOKEN
-  unset APP_ID
-  unset APP_PRIVATE_KEY
+  unset_env
   ./run.sh --jitconfig "${ENCODED_JIT_CONFIG}"
 else
   echo "Starting runner without JIT config"
@@ -62,9 +69,6 @@ else
     --unattended \
     --replace \
     --ephemeral
-  unset ACCESS_TOKEN
-  unset RUNNER_TOKEN
-  unset APP_ID
-  unset APP_PRIVATE_KEY
+  unset_env
   ./run.sh
 fi
