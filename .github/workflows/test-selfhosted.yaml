@@ -12,3 +12,6 @@ jobs:
     - name: echo
       run: |
         echo "Hello self hosted agent"
+    - name: printenv
+      run: |
+        printenv
