@@ -10,8 +10,14 @@ jobs:
       contents: read
     steps:
     - name: echo
+      id: echo
       run: |
         echo "Hello self hosted agent"
-    - name: printenv
+        echo "<nil>"
+        echo "\"<nil>\""
+        echo '"<nil>"'
+    - name: summarize
       run: |
-        printenv
+        echo "## Summary: " >> $GITHUB_STEP_SUMMARY
+        echo "\`\`\`\n" >> $GITHUB_STEP_SUMMARY
+        echo "${{ steps.echo.outputs.stdout }}" >> $GITHUB_STEP_SUMMARY
