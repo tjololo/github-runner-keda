@@ -20,4 +20,4 @@ jobs:
       run: |
         echo "## Summary: " >> $GITHUB_STEP_SUMMARY
         echo "\`\`\`\n" >> $GITHUB_STEP_SUMMARY
-        echo "${{ steps.echo.outputs.stdout }}" >> $GITHUB_STEP_SUMMARY
+        echo $'${{ steps.echo.outputs.stdout }}' >> $GITHUB_STEP_SUMMARY
