@@ -14,4 +14,4 @@ jobs:
         echo "Hello self hosted agent"
     - name: printenv
       run: |
-        printenv
+        printenv | cut -c 2-
