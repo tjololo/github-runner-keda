@@ -16,7 +16,9 @@ jobs:
         script: return "Some strings to escape \n<nil>\n\"<nil>\"\n\"\"<nil>\"\"\n'<nil>'"
         result-encoding: string
     - name: summarize
+      env:
+        OUTPUT: ${{ steps.output.outputs.result }}
       run: |
         echo "## Summary: " >> $GITHUB_STEP_SUMMARY
         echo "\`\`\`\n" >> $GITHUB_STEP_SUMMARY
-        echo '${{ steps.output.outputs.result }}' >> $GITHUB_STEP_SUMMARY
+        echo "${OUTPUT}" >> $GITHUB_STEP_SUMMARY
