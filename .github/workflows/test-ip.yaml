@@ -11,18 +11,13 @@ jobs:
     steps:
     - name: output
       id: output
-      uses: actions/github-script@v7
-      with:
-        script: |
-          const ipv4 = await http.getJson<IPResponse>(
-            "https://api.ipify.org?format=json"
-          );
-
-          return ipv4.result.ip
-        result-encoding: string
+      run: |
+        RESP=$(curl -fsSL "https://api.ipify.org?format=json")
+        IPV4=$(jq -r '.ip' <<< ${RESP})
+        echo "ip=${IPV4}" >> $GITHUB_OUTPUT
     - name: summarize
       env:
-        OUTPUT: ${{ steps.output.outputs.result }}
+        OUTPUT: ${{ steps.output.outputs.ip }}
       run: |
         echo "## Summary: " >> $GITHUB_STEP_SUMMARY
         echo "\`\`\`\n" >> $GITHUB_STEP_SUMMARY
