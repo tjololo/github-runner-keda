@@ -5,19 +5,12 @@ on:
 
 jobs:
   test:
-    runs-on: [self-hosted, test]
+    runs-on: [self-hosted, default]
     permissions:
       contents: read
     steps:
-    - name: echo
-      id: echo
-      run: |
-        echo "Hello self hosted agent"
-        echo "<nil>"
-        echo "\"<nil>\""
-        echo '"<nil>"'
     - name: summarize
       run: |
         echo "## Summary: " >> $GITHUB_STEP_SUMMARY
         echo "\`\`\`\n" >> $GITHUB_STEP_SUMMARY
-        echo $'${{ steps.echo.outputs.stdout }}' >> $GITHUB_STEP_SUMMARY
+        echo "I\'m running on a self hosted agent" >> $GITHUB_STEP_SUMMARY
