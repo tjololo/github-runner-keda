@@ -1,4 +1,4 @@
-name: Test escaping
+name: Test ip
 
 on:
   workflow_dispatch:
@@ -13,7 +13,12 @@ jobs:
       id: output
       uses: actions/github-script@v7
       with:
-        script: return "Some strings to escape \n<nil>\n\"<nil>\"\n\"\"<nil>\"\"\n'<nil>'\n\'<nil>\'"
+        script: |
+          const ipv4 = await http.getJson<IPResponse>(
+            "https://api.ipify.org?format=json"
+          );
+
+          return ipv4.result.ip
         result-encoding: string
     - name: summarize
       env:
@@ -21,4 +26,4 @@ jobs:
       run: |
         echo "## Summary: " >> $GITHUB_STEP_SUMMARY
         echo "\`\`\`\n" >> $GITHUB_STEP_SUMMARY
-        echo "${OUTPUT}" >> $GITHUB_STEP_SUMMARY
+        echo "IP: ${OUTPUT}" >> $GITHUB_STEP_SUMMARY
