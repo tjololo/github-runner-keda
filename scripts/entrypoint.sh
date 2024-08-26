@@ -2,6 +2,18 @@
 # shellcheck shell=bash
 export PATH=${PATH}:/actions-runner
 
+##### ENVVARS
+# APP_ID ID of app used for registering and setting up runner
+# AP_PRIVATE_KEY Private key for app (should be kept in a vault)
+# REPO_URL Url to the repository. Example: https://github.com/tjololo/github-runner-keda
+# RUNNER_NAME (optional) Name of the runner. Default: ${RUNNER_NAME_PREFIX}-<random-string>
+# RUNNER_NAME_PREFIX (optional) The name will have random string add after the prefix. Default: github-runner
+# RUNNER_WORKDIR (optional) Work dir for the runner. Default: /_work/${RUNNER_NAME}
+# LABELS (optional) Runner labels. Default: default
+# RUNNER_GROUP (optional) Name of runner group. Default: Default
+# RUNNER_GROUP_ID (optional) Id of runner group. Default: 1
+# JIT_RUNNER (optional) If this var is set the runner will be setup as a JIT runner.
+
 # Un-export these, so that they must be passed explicitly to the environment of
 # any command that needs them.  This may help prevent leaks.
 export -n ACCESS_TOKEN
