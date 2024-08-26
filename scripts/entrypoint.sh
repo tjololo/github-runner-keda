@@ -27,7 +27,7 @@ _RUNNER_WORKDIR=${RUNNER_WORKDIR:-/_work/${_RUNNER_NAME}}
 _LABELS=${LABELS:-default}
 _RUNNER_GROUP=${RUNNER_GROUP:-Default}
 _RUNNER_GROUP_ID=${RUNNER_GROUP_ID:-1}
-_BASE_HOST=${GITHUB_HOST:-"https://github.com"}
+_BASE_HOST=${BASE_HOST:-"https://github.com"}
 
 ## Unset these, this may help prevent leaks
 unset_env() {
@@ -44,10 +44,10 @@ unset_env() {
 APP_LOGIN=${ORG_NAME}
 
 if [[ -z ${REPO_NAME} ]]; then
-  _SHORT_URL="${_BASE_HOST}/${ORG_NAME}"
+  _REPO_URL="${_BASE_HOST}/${ORG_NAME}"
   RUNNER_SCOPE="org"
 else
-  _SHORT_URL="${_BASE_HOST}/${ORG_NAME}/${REPO_NAME}"
+  _REPO_URL="${_BASE_HOST}/${ORG_NAME}/${REPO_NAME}"
   RUNNER_SCOPE="repo"
 fi
 
@@ -62,7 +62,7 @@ RUNNER_TOKEN=$(echo "${_TOKEN}" | jq -r .token)
 
 if [[ -n "${JIT_RUNNER}" ]]; then
   ./config.sh \
-    --url $_SHORT_URL \
+    --url $_REPO_URL \
     --token $RUNNER_TOKEN \
     --labels "${_LABELS}" \
     --work "${_RUNNER_WORKDIR}" \
@@ -71,7 +71,7 @@ if [[ -n "${JIT_RUNNER}" ]]; then
     --unattended \
     --replace \
     --ephemeral
-  JIT_CONFIG=$(REPO_URL="${_SHORT_URL}" NAME="${_RUNNER_NAME}" LABELS="${_LABELS}" WORK_FOLDER="${_RUNNER_WORKDIR}" ACCESS_TOKEN="${ACCESS_TOKEN}" bash ./jit-config.sh)
+  JIT_CONFIG=$(REPO_URL="${_REPO_URL}" NAME="${_RUNNER_NAME}" LABELS="${_LABELS}" WORK_FOLDER="${_RUNNER_WORKDIR}" ACCESS_TOKEN="${ACCESS_TOKEN}" bash ./jit-config.sh)
   echo "Starting runner with JIT config ${JIT_CONFIG}"
   ENCODED_JIT_CONFIG=$(jq -r '.encoded_jit_config' <<< "${JIT_CONFIG}")
   unset_env
@@ -79,7 +79,7 @@ if [[ -n "${JIT_RUNNER}" ]]; then
 else
   echo "Starting runner without JIT config"
   ./config.sh \
-    --url $_SHORT_URL \
+    --url $_REPO_URL \
     --token $RUNNER_TOKEN \
     --labels "${_LABELS}" \
     --work "${_RUNNER_WORKDIR}" \
