@@ -27,7 +27,7 @@ _RUNNER_WORKDIR=${RUNNER_WORKDIR:-/_work/${_RUNNER_NAME}}
 _LABELS=${LABELS:-default}
 _RUNNER_GROUP=${RUNNER_GROUP:-Default}
 _RUNNER_GROUP_ID=${RUNNER_GROUP_ID:-1}
-_GITHUB_HOST=${GITHUB_HOST:="github.com"}
+_GITHUB_HOST=${GITHUB_HOST:-"github.com"}
 _BASE_URI="https://${_GITHUB_HOST}"
 
 ## Unset these, this may help prevent leaks
