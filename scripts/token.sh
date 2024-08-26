@@ -1,7 +1,5 @@
 #!/bin/bash
 
-_GITHUB_HOST=${GITHUB_HOST:="github.com"}
-
 # If URL is not github.com then use the enterprise api endpoint
 if [[ ${GITHUB_HOST} = "github.com" ]]; then
   URI="https://api.${_GITHUB_HOST}"
@@ -24,13 +22,7 @@ case ${RUNNER_SCOPE} in
     ;;
 
   *)
-    _PROTO="https://"
-    # shellcheck disable=SC2116
-    _URL="$(echo "${REPO_URL/${_PROTO}/}")"
-    _PATH="$(echo "${_URL}" | grep / | cut -d/ -f2-)"
-    _ACCOUNT="$(echo "${_PATH}" | cut -d/ -f1)"
-    _REPO="$(echo "${_PATH}" | cut -d/ -f2)"
-    _FULL_URL="${URI}/repos/${_ACCOUNT}/${_REPO}/actions/runners/registration-token"
+    _FULL_URL="${URI}/repos/${ORG_NAME}/${REPO_NAME}/actions/runners/registration-token"
     ;;
 esac
 

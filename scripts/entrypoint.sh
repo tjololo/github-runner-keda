@@ -27,7 +27,8 @@ _RUNNER_WORKDIR=${RUNNER_WORKDIR:-/_work/${_RUNNER_NAME}}
 _LABELS=${LABELS:-default}
 _RUNNER_GROUP=${RUNNER_GROUP:-Default}
 _RUNNER_GROUP_ID=${RUNNER_GROUP_ID:-1}
-_BASE_HOST=${BASE_HOST:-"https://github.com"}
+_GITHUB_HOST=${GITHUB_HOST:="github.com"}
+_BASE_URI="https://${_GITHUB_HOST}"
 
 ## Unset these, this may help prevent leaks
 unset_env() {
@@ -41,7 +42,7 @@ unset_env() {
 [[ -z ${APP_PRIVATE_KEY} ]] && (echo "APP_PRIVATE_KEY is required"; exit 1)
 [[ -z ${ORG_NAME} ]] && (echo "Atleast ORG_NAME is required, to define a Repo runner define REPO_NAME as well"; exit 1)
 
-APP_LOGIN=${ORG_NAME}
+APP_LOGIN="${ORG_NAME}"
 
 if [[ -z ${REPO_NAME} ]]; then
   _REPO_URL="${_BASE_HOST}/${ORG_NAME}"
@@ -57,7 +58,7 @@ ACCESS_TOKEN=$(APP_ID="${APP_ID}" APP_PRIVATE_KEY="${APP_PRIVATE_KEY//\\n/${nl}}
 
 
 # Retrieve a short lived runner registration token using the PAT
-_TOKEN=$(ACCESS_TOKEN="${ACCESS_TOKEN}" bash ./token.sh)
+_TOKEN=$(ACCESS_TOKEN="${ACCESS_TOKEN}" REPO_URL="${_REPO_URL}" bash ./token.sh)
 RUNNER_TOKEN=$(echo "${_TOKEN}" | jq -r .token)
 
 if [[ -n "${JIT_RUNNER}" ]]; then
@@ -77,9 +78,9 @@ if [[ -n "${JIT_RUNNER}" ]]; then
   unset_env
   ./run.sh --jitconfig "${ENCODED_JIT_CONFIG}"
 else
-  echo "Starting runner without JIT config"
+  echo "Starting runner without JIT config for URL: ${_REPO_URL}"
   ./config.sh \
-    --url $_REPO_URL \
+    --url "${_REPO_URL}" \
     --token $RUNNER_TOKEN \
     --labels "${_LABELS}" \
     --work "${_RUNNER_WORKDIR}" \
