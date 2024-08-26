@@ -43,7 +43,7 @@ unset_env() {
 
 APP_LOGIN=${ORG_NAME}
 
-if [[ -z ${REPO_NAME }]]; then
+if [[ -z ${REPO_NAME}]]; then
   _SHORT_URL="${_BASE_HOST}/${ORG_NAME}"
   RUNNER_SCOPE="org"
 else
