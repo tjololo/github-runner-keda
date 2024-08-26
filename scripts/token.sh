@@ -1,5 +1,6 @@
 #!/bin/bash
 
+_GITHUB_HOST=${GITHUB_HOST:-"github.com"}
 # If URL is not github.com then use the enterprise api endpoint
 if [[ ${_GITHUB_HOST} = "github.com" ]]; then
   URI="https://api.${_GITHUB_HOST}"

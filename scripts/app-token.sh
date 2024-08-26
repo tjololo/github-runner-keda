@@ -9,6 +9,8 @@
 # https://github.com/orgs/community/discussions/24743#discussioncomment-3245300
 #
 
+_GITHUB_HOST=${GITHUB_HOST:-"github.com"}
+
 set -o pipefail
 
 # If URL is not github.com then use the enterprise api endpoint

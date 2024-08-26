@@ -45,10 +45,10 @@ unset_env() {
 APP_LOGIN="${ORG_NAME}"
 
 if [[ -z ${REPO_NAME} ]]; then
-  _REPO_URL="${_BASE_HOST}/${ORG_NAME}"
+  _REPO_URL="${_BASE_URI}/${ORG_NAME}"
   RUNNER_SCOPE="org"
 else
-  _REPO_URL="${_BASE_HOST}/${ORG_NAME}/${REPO_NAME}"
+  _REPO_URL="${_BASE_URI}/${ORG_NAME}/${REPO_NAME}"
   RUNNER_SCOPE="repo"
 fi
 
